@@ -47,13 +47,9 @@ public class PlayerController : MonoBehaviour
         m_PlayerTOScreenPosition = 
             Camera.main.WorldToScreenPoint(transform.position);
 
-
-
         m_MousePosition = m_MousePosition - m_PlayerTOScreenPosition;
 
-
         //Debug.Log("위치값 : " + m_MousePosition.ToString());
-
 
         m_TempVal = Mathf.Atan2( -m_MousePosition.y, m_MousePosition.x );
         m_TempVal = m_TempVal * Mathf.Rad2Deg;
@@ -92,11 +88,71 @@ public class PlayerController : MonoBehaviour
 
     }
 
+
+    public Transform Nozzle = null;
+
+    void OnDrawGizmos()
+    {
+        Vector3 direction = transform.rotation * new Vector3(1, 0, 0) * 100f;
+        Debug.DrawLine(Nozzle.position
+            , Nozzle.position + direction
+            , Color.blue);
+    }
+
+
+    public LayerMask EnemyLayer = new LayerMask();
+    void UpdateFire()
+    {
+
+        if( Input.GetMouseButtonDown(0) )
+        {
+            //Nozzle.position;
+            Vector3 direction = transform.rotation * new Vector3(1, 0, 0);
+
+            RaycastHit hitinfo;
+            if( Physics.Raycast(Nozzle.position
+                , direction
+                , out hitinfo
+                , 100f
+                , EnemyLayer ) )
+            {
+                //hitinfo.transform.gameObject.layer == ;
+
+
+                //hitinfo.transform.gameObject
+                Debug.Log("히트 : " + hitinfo.transform.name);
+
+
+                Enemy hitenemy = hitinfo.transform.GetComponent<Enemy>();
+
+                if(hitenemy )
+                {
+                    hitenemy.SetDamage(1);
+
+                    //GameObject.Destroy(hitinfo.transform.gameObject);
+                }
+
+                //if (hitinfo.transform.tag == "Envement")
+                //{
+                //    return;
+                //}
+                
+
+            }
+            
+
+
+
+        }
+
+
+    }
+
     void Update()
     {
         UpdateMoveControl();
         UpdateRotation();
-
+        UpdateFire();
 
     }
 }
