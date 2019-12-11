@@ -349,6 +349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 1
+  RotSpeed: 3
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -908,7 +909,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetTrans: {fileID: 537863091}
-  SmoothVal: 0.3
+  SmoothVal: 3
 --- !u!1 &1324050363
 GameObject:
   m_ObjectHideFlags: 0
