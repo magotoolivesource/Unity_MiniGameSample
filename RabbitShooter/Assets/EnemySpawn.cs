@@ -9,6 +9,7 @@ public class EnemySpawn : MonoBehaviour
     void CreateEnemy()
     {
         Enemy cloneenemy = GameObject.Instantiate<Enemy>(TargetEnemy);
+        cloneenemy.gameObject.SetActive(true);
         cloneenemy.transform.position = this.transform.position;
         cloneenemy.Init();
 

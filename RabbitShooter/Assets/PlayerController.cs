@@ -7,7 +7,8 @@ public class PlayerController : MonoBehaviour
     
     void Start()
     {
-        
+        m_LineRender = GetComponent<LineRenderer>();
+
     }
 
     public float MoveSpeed = 1f;
@@ -100,48 +101,81 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public LayerMask EnemyLayer = new LayerMask();
-    void UpdateFire()
+    LineRenderer m_LineRender = null;
+    public Light m_Light = null;
+    public float m_NozzleEffectDelaySec = 0.1f;
+    float m_NozzleSec = 0f;
+    void FireEffect( Vector3 p_pos, Vector3 p_endpos )
     {
+        m_LineRender.enabled = true;
+        m_Light.gameObject.SetActive(true);
+        //m_LineRender = GetComponent<LineRenderer>();
+        m_LineRender.SetPosition(0, p_pos);
+        m_LineRender.SetPosition(1, p_endpos);
 
-        if( Input.GetMouseButtonDown(0) )
+        m_NozzleSec = Time.time + m_NozzleEffectDelaySec;
+    }
+
+    void UpdateFireEffect()
+    {
+        if(m_LineRender.enabled
+            && m_NozzleSec <= Time.time )
         {
-            //Nozzle.position;
-            Vector3 direction = transform.rotation * new Vector3(1, 0, 0);
+            m_LineRender.enabled = false;
+            m_Light.gameObject.SetActive(false);
+        }
 
-            RaycastHit hitinfo;
-            if( Physics.Raycast(Nozzle.position
-                , direction
-                , out hitinfo
-                , 100f
-                , EnemyLayer ) )
+    }
+
+
+    void FireFN()
+    {
+        //Nozzle.position;
+        Vector3 direction = transform.rotation * new Vector3(1, 0, 0);
+
+        RaycastHit hitinfo;
+        if (Physics.Raycast(Nozzle.position
+            , direction
+            , out hitinfo
+            , 100f
+            , EnemyLayer))
+        {
+            //hitinfo.transform.gameObject.layer == ;
+
+
+            //hitinfo.transform.gameObject
+            Debug.Log("히트 : " + hitinfo.transform.name);
+
+
+            Enemy hitenemy = hitinfo.transform.GetComponent<Enemy>();
+
+            if (hitenemy)
             {
-                //hitinfo.transform.gameObject.layer == ;
-
-
-                //hitinfo.transform.gameObject
-                Debug.Log("히트 : " + hitinfo.transform.name);
-
-
-                Enemy hitenemy = hitinfo.transform.GetComponent<Enemy>();
-
-                if(hitenemy )
-                {
-                    hitenemy.SetDamage(20);
-
-                    //GameObject.Destroy(hitinfo.transform.gameObject);
-                }
-
-                //if (hitinfo.transform.tag == "Envement")
-                //{
-                //    return;
-                //}
-                
+                hitenemy.SetDamage(20);
 
             }
-            
+        }
 
+        FireEffect( Nozzle.position, Nozzle.position + (direction * 100f) );
+    }
 
+    public LayerMask EnemyLayer = new LayerMask();
+    public float AttackDelaySec = 0.5f;
+    float NextFireSec = 0f;
+    bool m_ISFire = false;
+    void UpdateFire()
+    {
+        if( Input.GetMouseButton(0) )
+        {
+            if(NextFireSec < Time.time)
+            {
+                NextFireSec = Time.time + AttackDelaySec;
+                m_ISFire = true;
+
+                FireFN();
+
+                m_ISFire = false;
+            }
 
         }
 
@@ -153,6 +187,27 @@ public class PlayerController : MonoBehaviour
         UpdateMoveControl();
         UpdateRotation();
         UpdateFire();
+        UpdateFireEffect();
+    }
+
+
+
+
+
+
+
+    public int HP = 100;
+    public void SetDamage(float p_attack)
+    {
+        HP -= (int)p_attack;
+
+        if( HP <= 0)
+        {
+            // 게임오버 화면에 뿌려주기 작업
+            Debug.Log("게임오버 화면뿌려주기");
+        }
+
 
     }
+
 }

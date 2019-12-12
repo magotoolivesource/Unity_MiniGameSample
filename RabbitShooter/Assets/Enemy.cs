@@ -5,6 +5,32 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+    public float AttackRange = 2.5f;
+    public float AttackVal = 10;
+    public float AttackDelay = 2f;
+
+
+    float NextAttackSec = 0f;
+    public void Attack()
+    {
+        if(m_AttackPlayer)
+        {
+            if(NextAttackSec <= Time.time )
+            {
+                NextAttackSec = Time.time + AttackDelay;
+                m_AttackPlayer.SetDamage(AttackVal);
+            }
+
+            
+            //Invoke("SetAttack", AttackDelay);
+        }
+            
+
+
+    }
+
+
+
     public int HP = 100;
 
     public float DefanceVal = 1f;
@@ -35,7 +61,40 @@ public class Enemy : MonoBehaviour
         m_PlayerTarget = GameObject.FindObjectOfType<PlayerController>();
         m_Agent = GetComponent<NavMeshAgent>();
 
+
+        GetComponent<SphereCollider>().radius = AttackRange;
+        GetComponent<SphereCollider>().isTrigger = true;
+
     }
+
+
+    [SerializeField]
+    PlayerController m_AttackPlayer = null;
+    void OnTriggerEnter(Collider other)
+    {
+        //Debug.Log("누가 공격 : " + this.name + " : 플레이어 : " +  other.name );
+        Debug.LogFormat("공격 : {0}, {1} ", name, other.name);
+
+        m_AttackPlayer = other.transform.GetComponent<PlayerController>();
+        //if(m_AttackPlayer)
+        //{
+        //    Invoke("SetAttack", 0);
+        //}
+
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(m_AttackPlayer.gameObject == other.gameObject)
+        {
+            m_AttackPlayer = null;
+        }
+        
+        
+    }
+
+
+
 
 
     public void Init()
@@ -50,7 +109,7 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         UpdateTargetFollow();
-
+        Attack();
 
     }
 }
