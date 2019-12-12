@@ -127,7 +127,7 @@ public class PlayerController : MonoBehaviour
 
                 if(hitenemy )
                 {
-                    hitenemy.SetDamage(1);
+                    hitenemy.SetDamage(20);
 
                     //GameObject.Destroy(hitinfo.transform.gameObject);
                 }
