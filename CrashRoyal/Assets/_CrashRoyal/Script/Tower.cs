@@ -1,26 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 
-
-public class Warrior : BaseActor
+public class Tower : BaseActor
 {
-    //public int TestVal = 20;
 
-    
+
 
 
     protected override void Start()
     {
+
+        //m_LinkgAgent.enabled = false;
+        //m_LinkgAgent.speed = 0f;
         base.Start();
 
     }
 
     protected override void Update()
     {
-        base.Update();
+        //base.Update();
+        UpdateAttackTarget();
 
     }
 }
