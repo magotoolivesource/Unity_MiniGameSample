@@ -54,6 +54,22 @@ public class InGameManager : SingleTon<InGameManager>
     public BaseActor[] m_MyTowerActor = new BaseActor[(int)E_TowerType.Max];
 
 
+    public bool ISEnemyTower( BaseActor p_actor )
+    {
+        if (p_actor.CampType == E_CampType.MyCamp )
+        {
+            foreach (var item in m_EnemyTowerActor)
+            {
+                if(item == p_actor)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
 
     public static bool ISSameCampType( BaseActor p_srcactor, BaseActor p_destactor )
     {
