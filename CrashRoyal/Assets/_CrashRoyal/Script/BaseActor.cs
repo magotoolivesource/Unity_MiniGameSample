@@ -34,6 +34,7 @@ public class BaseActor : MonoBehaviour
     public float AttackSpeed = 1f;
     public float AttackVal = 10f;
     public float AttackRange = 1f;
+    public float SerchingRange = 3f;
 
         
     [Header("[확인용]")]
@@ -53,6 +54,26 @@ public class BaseActor : MonoBehaviour
     }
 
 
+    
+    public void SerchingTriggerEnter(BaseActor p_actor)
+    {
+
+    }
+
+    public void AttackTriggerEnter(BaseActor p_actor)
+    {
+        BaseActor otheractor = p_actor;// other.GetComponent<BaseActor>();
+        if (otheractor
+            && !InGameManager.ISSameCampType(otheractor, this))
+        {
+            if (m_AttackTrans == null)
+            {
+                TargetActor = otheractor;
+                m_AttackTrans = otheractor.transform;
+            }
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         // 충돌된 내용들 확인하기
@@ -65,7 +86,7 @@ public class BaseActor : MonoBehaviour
             if(m_AttackTrans == null )
             {
                 TargetActor = otheractor;
-                m_AttackTrans = other.transform;
+                m_AttackTrans = otheractor.transform;
             }
         }
 
@@ -160,12 +181,17 @@ public class BaseActor : MonoBehaviour
     }
 
 
-    void Awake()
+    public ColliderCallCom m_AttackColliderCom = null;
+    public ColliderCallCom m_SerchingColliderCom = null;
+
+
+    [ContextMenu("[충돌체사이즈확인용]")]
+    protected void InitSettingBaseActor()
     {
         m_LinkgAgent = GetComponent<NavMeshAgent>();
         m_LinkgAgent.speed = MoveSpeed;
 
-        if(CampType == E_CampType.MyCamp)
+        if (CampType == E_CampType.MyCamp)
         {
             tag = "Player";
         }
@@ -174,7 +200,14 @@ public class BaseActor : MonoBehaviour
             tag = "Enemy";
         }
 
+        m_AttackColliderCom.SetInitColliderCallFN(AttackTriggerEnter, AttackRange);
+        m_SerchingColliderCom.SetInitColliderCallFN(SerchingTriggerEnter, SerchingRange);
 
+    }
+
+    void Awake()
+    {
+        InitSettingBaseActor();
     }
 
 
@@ -192,10 +225,10 @@ public class BaseActor : MonoBehaviour
 
     protected virtual void Update()
     {
-        UpdateReserchingTarget();
+        //UpdateReserchingTarget();
 
-        UpdateTargetMove();
-        UpdateAttackTarget();
+        //UpdateTargetMove();
+        //UpdateAttackTarget();
         
 
 
