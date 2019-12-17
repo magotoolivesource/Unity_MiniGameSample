@@ -33,6 +33,7 @@ public class BaseActor : MonoBehaviour
     public BaseActor TargetActor = null;
     public float AttackSpeed = 1f;
     public float AttackVal = 10f;
+    public float AttackRange = 1f;
 
         
     [Header("[확인용]")]
@@ -42,6 +43,8 @@ public class BaseActor : MonoBehaviour
     protected Transform m_AttackTrans = null;
     [SerializeField]
     protected float m_NextAttackSec = 0f;
+
+    public LayerMask CollistionMask;
 
 
     protected virtual void TestFN()
@@ -54,10 +57,18 @@ public class BaseActor : MonoBehaviour
     {
         // 충돌된 내용들 확인하기
         Debug.LogFormat("충돌 : {0}, {1}", other.name, this.name);
-        if (other.tag == "Enemy")
+
+        BaseActor otheractor = other.GetComponent<BaseActor>();
+        if( otheractor
+            && !InGameManager.ISSameCampType(otheractor, this) )
         {
-            m_AttackTrans = other.transform;
+            if(m_AttackTrans == null )
+            {
+                TargetActor = otheractor;
+                m_AttackTrans = other.transform;
+            }
         }
+
     }
 
     private void OnTriggerExit(Collider other)
@@ -67,8 +78,61 @@ public class BaseActor : MonoBehaviour
         {
             m_AttackTrans = null;
         }
+
+
+        ReSearchingTarget();
     }
 
+    public void ReSearchingTarget()
+    {
+        if( m_AttackTrans == null)
+        {
+
+        }
+
+        if(TargetActor == null)
+        {
+            LayerMask maskval = LayerMask.GetMask("Player", "Enemy");
+            Collider[] colarray = Physics.OverlapSphere(transform.position
+                , AttackRange
+                , maskval );
+
+
+            BaseActor tempactor = null;
+            //BaseActor minlengthcollider = null;
+            float minlength = float.MaxValue;
+            float templength = 0f;
+            foreach (var item in colarray)
+            {
+                templength = (item.transform.position - transform.position).magnitude;
+                tempactor = item.GetComponent<BaseActor>();
+
+                if ( templength < minlength)
+                {
+                    if( !InGameManager.ISSameCampType(tempactor, this) )
+                    {
+                        minlength = templength;
+                        //minlengthcollider = tempactor;
+                        TargetActor = tempactor;
+                    }
+                }
+            }
+
+            if(TargetActor == null)
+            {
+                SetNearTowerTarget();
+            }
+
+        }
+
+
+    }
+
+    protected void SetNearTowerTarget()
+    {
+        TargetActor = InGameManager.GetI.GetEnemyCampTower(CampType
+                        , this.transform.position.x);
+    }
 
     protected void UpdateTargetMove()
     {
@@ -89,6 +153,11 @@ public class BaseActor : MonoBehaviour
         }
     }
 
+    void UpdateReserchingTarget()
+    {
+        if(TargetActor == null)
+            ReSearchingTarget();
+    }
 
 
     void Awake()
@@ -106,26 +175,30 @@ public class BaseActor : MonoBehaviour
         }
 
 
-
-
     }
 
 
-    [SerializeField]
-    protected InGameManager m_Manager = null;
+    //[SerializeField]
+    //protected InGameManager m_Manager = null;
     protected virtual void Start()
     {
-        m_Manager = GameObject.FindObjectOfType<InGameManager>();
+        //m_Manager = GameObject.FindObjectOfType<InGameManager>();
+        //TargetActor = m_Manager.GetEnemyCampTower(CampType
+        //                , this.transform.position.x);
 
-        TargetActor = m_Manager.GetEnemyCampTower(CampType
-                        , this.transform.position.x);
-
+        SetNearTowerTarget();
 
     }
 
     protected virtual void Update()
     {
+        UpdateReserchingTarget();
+
         UpdateTargetMove();
         UpdateAttackTarget();
+        
+
+
+
     }
 }

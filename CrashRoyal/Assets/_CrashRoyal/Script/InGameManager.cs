@@ -12,12 +12,65 @@ public enum E_TowerType
     Max
 }
 
-public class InGameManager : MonoBehaviour
+public class InGameManager : SingleTon<InGameManager>
 {
+    //private static InGameManager m_Instance = null;
+    //public static InGameManager GetI
+    //{
+    //    get
+    //    {
+    //        if (m_Instance == null)
+    //        {
+    //            m_Instance = GameObject.FindObjectOfType<InGameManager>();
+    //            if (m_Instance == null)
+    //            {
+    //                Debug.LogErrorFormat("매니저가 없음 확인 하세요 ");
+    //            }
+    //        }
+
+    //        return m_Instance;
+    //    }
+    //    //set;
+    //}
+
+    //public static InGameManager GetInstace()
+    //{
+    //    if( m_Instance == null)
+    //    {
+    //        m_Instance = GameObject.FindObjectOfType<InGameManager>();
+    //        if( m_Instance == null)
+    //        {
+    //            Debug.LogErrorFormat("매니저가 없음 확인 하세요 ");
+    //        }
+    //    }
+
+    //    return m_Instance;
+    //}
+
+
+
     // 0= 오른쪽, 1은 왼쪽, 2 중앙
     public BaseActor[] m_EnemyTowerActor = new BaseActor[(int)E_TowerType.Max];
     public BaseActor[] m_MyTowerActor = new BaseActor[(int)E_TowerType.Max];
 
+
+
+    public static bool ISSameCampType( BaseActor p_srcactor, BaseActor p_destactor )
+    {
+        if( p_srcactor.CampType == E_CampType.Max
+            || p_destactor.CampType == E_CampType.Max)
+        {
+            Debug.LogErrorFormat("현재값 이상함");
+            return false;
+        }
+
+        if(p_srcactor.CampType == p_destactor.CampType)
+        {
+            return true;
+        }
+
+        return false;
+    }
 
     public BaseActor GetEnemyCampTower( E_CampType p_camp, float p_x )
     {
