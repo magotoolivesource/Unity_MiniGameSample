@@ -9,9 +9,16 @@ public class ActorStat : MonoBehaviour
     //public float AttackVal = 10;
 
 
-    public void SetDamage(float p_attackval)
+    public void SetDamage( AttackCom p_attdata )
     {
-        HP = HP - (int)p_attackval;
+
+        if( p_attdata.AttRangeType == E_AttackRangeType.Multi )
+        {
+            
+        }
+
+
+        HP = HP - (int)p_attdata.AttackVal;
 
         if( HP <= 0)
         {

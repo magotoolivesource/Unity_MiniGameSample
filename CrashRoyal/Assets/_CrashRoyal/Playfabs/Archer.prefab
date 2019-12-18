@@ -282,17 +282,23 @@ MonoBehaviour:
   TargetActor: {fileID: 0}
   SerchingActor: {fileID: 0}
   AttackSpeed: 1.4
-  AttackVal: 4
   AttackRange: 2.5
   SerchingRange: 3
+  AttackData:
+    AttackType: 1
+    AttRangeType: 0
+    AttackVal: 5
+    RangeAttackSpeed: 4
   m_LinkgAgent: {fileID: 0}
-  m_AttackTrans: {fileID: 0}
+  m_TargetAttackActor: {fileID: 0}
   m_NextAttackSec: 0
   CollistionMask:
     serializedVersion: 2
     m_Bits: 0
   m_AttackColliderCom: {fileID: 9137093331617250374}
   m_SerchingColliderCom: {fileID: 9137093332649104488}
+  m_CloneThrowingObj: {fileID: 6907813044497031420, guid: 274fa82f19e1a5c4480758134a2f4680,
+    type: 3}
 --- !u!54 &9137093333370155384
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -225,11 +225,17 @@ MonoBehaviour:
   TargetActor: {fileID: 0}
   SerchingActor: {fileID: 0}
   AttackSpeed: 1
-  AttackVal: 10
   AttackRange: 2.5
   SerchingRange: 3
+  AttackData:
+    AttackType: 0
+    AttRangeType: 0
+    AttackVal: 10
+    RangeAttackSpeed: 0
+    RangeSize: 0
+    RangeAttackMulti: 0
   m_LinkgAgent: {fileID: 6323660371178962477}
-  m_AttackTrans: {fileID: 0}
+  m_TargetAttackActor: {fileID: 0}
   m_NextAttackSec: 0
   CollistionMask:
     serializedVersion: 2

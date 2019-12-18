@@ -220,16 +220,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13b8b2e38c89a3840bcd28eab3b90e8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CampType: 2
+  CampType: 0
   MoveSpeed: 1
   TargetActor: {fileID: 0}
   SerchingActor: {fileID: 0}
   AttackSpeed: 1
-  AttackVal: 10
   AttackRange: 0.8
   SerchingRange: 2
+  AttackData:
+    AttackType: 0
+    AttRangeType: 0
+    AttackVal: 10
+    RangeAttackSpeed: 0
   m_LinkgAgent: {fileID: 1400741970684285466}
-  m_AttackTrans: {fileID: 0}
+  m_TargetAttackActor: {fileID: 0}
   m_NextAttackSec: 0
   CollistionMask:
     serializedVersion: 2

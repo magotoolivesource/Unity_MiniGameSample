@@ -21,12 +21,42 @@ public enum E_CampType
     Max
 }
 
-public enum E_AttackRangeType
+public enum E_AttackType
 {
     Meel = 0,
     Range,
 }
 
+public enum E_AttackRangeType
+{
+    One,
+    Multi,
+}
+
+[System.Serializable]
+public struct AttackCom
+{
+    public AttackCom(float p_attackval = 10f)
+    {
+        AttackType = E_AttackType.Meel;
+        AttRangeType = E_AttackRangeType.One;
+        AttackVal = p_attackval;
+        RangeAttackSpeed = 10f;
+
+        RangeSize= 2f;
+        RangeAttackMulti = 0.5f;
+    }
+        
+    public E_AttackType AttackType;// = E_AttackType.Meel;
+    public E_AttackRangeType AttRangeType;// 
+    public float AttackVal;// = 10f;
+    public float RangeAttackSpeed;// = 10f;
+
+    // rangetype = multi
+    public float RangeSize; // 충돌되는 범위
+    public float RangeAttackMulti; // 공격 값에 퍼센트
+
+}
 
 
 public class BaseActor : MonoBehaviour
@@ -41,12 +71,15 @@ public class BaseActor : MonoBehaviour
     public BaseActor TargetActor = null;
     public BaseActor SerchingActor = null;
     public float AttackSpeed = 1f; // 공격간의 속도
-    public float AttackVal = 10f;
     public float AttackRange = 1f;
     public float SerchingRange = 3f;
 
-    public E_AttackRangeType RangeType = E_AttackRangeType.Meel;
-    public float RangeAttackSpeed = 10f;
+
+    public AttackCom AttackData = new AttackCom();
+    //public E_AttackType AttackType = E_AttackType.Meel;
+    //public E_AttackRangeType AttRangeType = E_AttackRangeType.One;
+    //public float AttackVal = 10f;
+    //public float RangeAttackSpeed = 10f;
 
 
 
@@ -228,8 +261,18 @@ public class BaseActor : MonoBehaviour
     {
         Debug.LogFormat("공격함 : {0} -> {1}", name, m_TargetAttackActor.name);
 
-        ActorStat statcom = m_TargetAttackActor.GetComponent<ActorStat>();
-        statcom.SetDamage(AttackVal);
+        if(AttackData.AttackType == E_AttackType.Range)
+        {
+            Debug.LogErrorFormat("공격 값 확인하기 ?? ");
+            //ThrowingObj obj = GameObject.Instantiate<ThrowingObj>(m_CloneThrowingObj);
+            //obj.SetInitThworing(m_TargetAttackActor, this);
+        }
+        else
+        {
+            ActorStat statcom = m_TargetAttackActor.GetComponent<ActorStat>();
+            statcom.SetDamage(AttackData);
+        }
+
     }
     protected void UpdateAttackTarget()
     {

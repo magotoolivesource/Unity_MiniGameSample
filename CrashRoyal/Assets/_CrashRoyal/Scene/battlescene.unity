@@ -364,11 +364,15 @@ MonoBehaviour:
   TargetActor: {fileID: 0}
   SerchingActor: {fileID: 0}
   AttackSpeed: 1
-  AttackVal: 10
   AttackRange: 1
   SerchingRange: 3
-  RangeType: 0
-  RangeAttackSpeed: 10
+  AttackData:
+    AttackType: 0
+    AttRangeType: 0
+    AttackVal: 0
+    RangeAttackSpeed: 0
+    RangeSize: 0
+    RangeAttackMulti: 0
   m_LinkgAgent: {fileID: 0}
   m_TargetAttackActor: {fileID: 0}
   m_NextAttackSec: 0
@@ -748,11 +752,15 @@ MonoBehaviour:
   TargetActor: {fileID: 0}
   SerchingActor: {fileID: 0}
   AttackSpeed: 1
-  AttackVal: 10
   AttackRange: 1
   SerchingRange: 3
-  RangeType: 0
-  RangeAttackSpeed: 10
+  AttackData:
+    AttackType: 0
+    AttRangeType: 0
+    AttackVal: 0
+    RangeAttackSpeed: 0
+    RangeSize: 0
+    RangeAttackMulti: 0
   m_LinkgAgent: {fileID: 0}
   m_TargetAttackActor: {fileID: 0}
   m_NextAttackSec: 0
@@ -1231,11 +1239,15 @@ MonoBehaviour:
   TargetActor: {fileID: 0}
   SerchingActor: {fileID: 0}
   AttackSpeed: 1
-  AttackVal: 10
   AttackRange: 1
   SerchingRange: 3
-  RangeType: 0
-  RangeAttackSpeed: 10
+  AttackData:
+    AttackType: 0
+    AttRangeType: 0
+    AttackVal: 0
+    RangeAttackSpeed: 0
+    RangeSize: 0
+    RangeAttackMulti: 0
   m_LinkgAgent: {fileID: 0}
   m_TargetAttackActor: {fileID: 0}
   m_NextAttackSec: 0
@@ -1482,11 +1494,15 @@ MonoBehaviour:
   TargetActor: {fileID: 0}
   SerchingActor: {fileID: 0}
   AttackSpeed: 1
-  AttackVal: 10
   AttackRange: 1
   SerchingRange: 3
-  RangeType: 0
-  RangeAttackSpeed: 10
+  AttackData:
+    AttackType: 0
+    AttRangeType: 0
+    AttackVal: 0
+    RangeAttackSpeed: 0
+    RangeSize: 0
+    RangeAttackMulti: 0
   m_LinkgAgent: {fileID: 0}
   m_TargetAttackActor: {fileID: 0}
   m_NextAttackSec: 0
@@ -2791,7 +2807,7 @@ PrefabInstance:
     - target: {fileID: 1400741970684285467, guid: de8238803e07c3c43bfd862418b626db,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.87
+      value: 1.46
       objectReference: {fileID: 0}
     - target: {fileID: 1400741970684285467, guid: de8238803e07c3c43bfd862418b626db,
         type: 3}
@@ -2831,11 +2847,6 @@ PrefabInstance:
     - target: {fileID: 1400741970684285467, guid: de8238803e07c3c43bfd862418b626db,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1400741970684285468, guid: de8238803e07c3c43bfd862418b626db,
-        type: 3}
-      propertyPath: CampType
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -3065,17 +3076,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8977756727523786109, guid: 6bf73e8ad9c31044ca54b4a3f2bf4060,
-        type: 3}
-      propertyPath: m_CloneThrowingObj
-      value: 
-      objectReference: {fileID: 6907813044497031420, guid: 274fa82f19e1a5c4480758134a2f4680,
-        type: 3}
-    - target: {fileID: 8977756727523786109, guid: 6bf73e8ad9c31044ca54b4a3f2bf4060,
-        type: 3}
-      propertyPath: RangeAttackSpeed
-      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6bf73e8ad9c31044ca54b4a3f2bf4060, type: 3}

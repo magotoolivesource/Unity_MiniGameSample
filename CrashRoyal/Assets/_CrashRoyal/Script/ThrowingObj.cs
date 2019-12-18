@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ThrowingObj : MonoBehaviour
 {
+    protected AttackCom m_AttackCom;
 
     protected BaseActor m_TargetActor = null;
     protected Vector3 m_TargetPos = Vector3.zero;
@@ -14,13 +15,15 @@ public class ThrowingObj : MonoBehaviour
 
     public void SetInitThworing( BaseActor p_target, BaseActor p_attakcer )
     {
-        m_RangeSpeed = p_attakcer.RangeAttackSpeed;
-        m_AttackVal = p_attakcer.AttackVal;
+        m_AttackCom = p_attakcer.AttackData;
+        m_RangeSpeed = p_attakcer.AttackData.RangeAttackSpeed;
+        m_AttackVal = p_attakcer.AttackData.AttackVal;
         m_TargetActor = p_target;
         m_TargetPos = m_TargetActor.transform.position;
 
         this.transform.position = p_attakcer.transform.position;
 
+        
     }
 
     void Start()
@@ -46,7 +49,7 @@ public class ThrowingObj : MonoBehaviour
             if (m_TargetActor)
             {
                 ActorStat statcom = m_TargetActor.GetComponent<ActorStat>();
-                statcom.SetDamage(m_AttackVal);
+                statcom.SetDamage(m_AttackCom);
             }
             GameObject.Destroy(gameObject);
         }
