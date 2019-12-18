@@ -58,6 +58,17 @@ public struct AttackCom
 
 }
 
+public enum E_AnimationType
+{
+    Idle = 0,
+    Attack,
+    GetHit,
+    IsMoving,
+    IsDead,
+
+    Max
+}
+
 
 public class BaseActor : MonoBehaviour
 {
@@ -94,12 +105,49 @@ public class BaseActor : MonoBehaviour
     public LayerMask CollistionMask;
 
 
+    [SerializeField]
+    protected Animator m_Animator = null;
+
+
+    public void SetAnimation( E_AnimationType p_animationtype )
+    {
+        if(m_Animator == null)
+            return;
+
+
+        if( p_animationtype == E_AnimationType.Idle )
+        {
+            m_Animator.SetBool("IsMoving", false);
+        }
+        else if(p_animationtype == E_AnimationType.IsMoving)
+        {
+            m_Animator.SetBool("IsMoving", true);
+        }
+        else
+        {
+            m_Animator.SetTrigger(p_animationtype.ToString() );
+        }
+        
+
+    }
+
+
+
+
     protected virtual void TestFN()
     {
 
     }
 
 
+    public void InitSettingBaseActor(ActorTableData p_actortable
+        , E_CampType p_camptype )
+    {
+        CampType = p_camptype;
+        AttackData = p_actortable.AttackComData;
+
+        InitSettingBaseActor();
+    }
     
     public void SerchingTriggerEnter(BaseActor p_actor)
     {
@@ -244,11 +292,14 @@ public class BaseActor : MonoBehaviour
         {
             m_LinkgAgent.isStopped = true;
             //m_LinkgAgent.SetDestination(TargetActor.transform.position);
+
+            SetAnimation(E_AnimationType.Idle);
         }
         else
         {
             m_LinkgAgent.isStopped = false;
             m_LinkgAgent.SetDestination(TargetActor.transform.position);
+            SetAnimation(E_AnimationType.IsMoving);
         }
 
         
@@ -257,11 +308,9 @@ public class BaseActor : MonoBehaviour
     }
 
     
-    protected virtual void SetAttack()
+    public virtual void SetAttackDamage()
     {
-        Debug.LogFormat("공격함 : {0} -> {1}", name, m_TargetAttackActor.name);
-
-        if(AttackData.AttackType == E_AttackType.Range)
+        if (AttackData.AttackType == E_AttackType.Range)
         {
             Debug.LogErrorFormat("공격 값 확인하기 ?? ");
             //ThrowingObj obj = GameObject.Instantiate<ThrowingObj>(m_CloneThrowingObj);
@@ -272,6 +321,25 @@ public class BaseActor : MonoBehaviour
             ActorStat statcom = m_TargetAttackActor.GetComponent<ActorStat>();
             statcom.SetDamage(AttackData);
         }
+    }
+
+    protected virtual void SetAttack()
+    {
+        Debug.LogFormat("공격함 : {0} -> {1}", name, m_TargetAttackActor.name);
+        SetAnimation(E_AnimationType.Attack);
+
+
+        //if (AttackData.AttackType == E_AttackType.Range)
+        //{
+        //    Debug.LogErrorFormat("공격 값 확인하기 ?? ");
+        //    //ThrowingObj obj = GameObject.Instantiate<ThrowingObj>(m_CloneThrowingObj);
+        //    //obj.SetInitThworing(m_TargetAttackActor, this);
+        //}
+        //else
+        //{
+        //    ActorStat statcom = m_TargetAttackActor.GetComponent<ActorStat>();
+        //    statcom.SetDamage(AttackData);
+        //}
 
     }
     protected void UpdateAttackTarget()
@@ -319,6 +387,8 @@ public class BaseActor : MonoBehaviour
         m_SerchingColliderCom.SetInitColliderCallFN(SerchingTriggerEnter
             , SerchingTriggerExit
             , SerchingRange);
+
+        m_Animator = GetComponentInChildren<Animator>();
     }
 
     void Awake()

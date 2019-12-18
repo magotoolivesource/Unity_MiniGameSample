@@ -28,9 +28,8 @@ public class ActorTableData
     // UI 관련 데이터
     public Sprite UICardSprite = null;
 
-
-    public Transform InGameModel = null;
-
+    // 인게임 데이터용
+    public BaseActor InGameModel = null;
     
 }
 
@@ -52,6 +51,18 @@ public class ActorTableManager : SingleTon<ActorTableManager>
         return null;
     }
 
+
+    public BaseActor CreateInGameModel(int p_id, Vector3 p_worldpos, E_CampType p_camp )
+    {
+        ActorTableData tabledata = GetActorID(p_id);
+
+        BaseActor outactor = GameObject.Instantiate<BaseActor>(tabledata.InGameModel);
+        outactor.InitSettingBaseActor(tabledata, p_camp);
+        outactor.gameObject.SetActive(true);
+        outactor.transform.position = p_worldpos;
+
+        return outactor;
+    }
 
 
     void Start()

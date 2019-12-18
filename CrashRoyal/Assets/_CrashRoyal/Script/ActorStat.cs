@@ -11,8 +11,8 @@ public class ActorStat : MonoBehaviour
 
     public void SetDamage( AttackCom p_attdata )
     {
-
-        if( p_attdata.AttRangeType == E_AttackRangeType.Multi )
+        
+        if ( p_attdata.AttRangeType == E_AttackRangeType.Multi )
         {
             
         }
@@ -23,8 +23,15 @@ public class ActorStat : MonoBehaviour
         if( HP <= 0)
         {
             Debug.LogFormat("캐릭터 HP 제로 : ", this.name );
-            GameObject.Destroy(gameObject);
+            GetComponent<BaseActor>().SetAnimation(E_AnimationType.IsDead);
+            GameObject.Destroy(gameObject, 2f);
         }
+        else
+        {
+            GetComponent<BaseActor>().SetAnimation(E_AnimationType.GetHit);
+        }
+
+        
 
     }
 

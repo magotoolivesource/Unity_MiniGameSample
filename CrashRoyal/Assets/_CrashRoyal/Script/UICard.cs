@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class UICard : MonoBehaviour
 {
     public int m_ActorID = -1;
+    public E_CampType CampType = E_CampType.MyCamp;
 
     ActorTableData m_LinkTableData = null;
 
@@ -55,6 +56,9 @@ public class UICard : MonoBehaviour
                 Debug.Log("위치값 : " + worldpos);
 
                 //GameObject.Instantiate();
+                ActorTableManager.GetI.CreateInGameModel( m_ActorID
+                    , worldpos
+                    , CampType );
             }
             
 
