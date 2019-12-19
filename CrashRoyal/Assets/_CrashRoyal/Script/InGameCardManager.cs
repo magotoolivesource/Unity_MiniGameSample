@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class InGameCardManager : SingleTon<InGameCardManager>
 {
+
+    public UI_DragCard DragCard = null;
+
     public RectTransform CardRectTransform = null;
     public UICard CloneUICard = null;
 
@@ -24,6 +27,8 @@ public class InGameCardManager : SingleTon<InGameCardManager>
 
     public void InitUICard()
     {
+        DragCard.gameObject.SetActive(false);
+
         CreateUICard(0, CardRectTransform, 0);
         CreateUICard(1, CardRectTransform, 1);
         CreateUICard(1, CardRectTransform, 2);

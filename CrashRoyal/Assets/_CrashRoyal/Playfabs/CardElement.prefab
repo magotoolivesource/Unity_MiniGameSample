@@ -192,6 +192,7 @@ MonoBehaviour:
   CardImage: {fileID: 5844916801943737357}
   CostLabel: {fileID: 5844916801792661419}
   CardLabel: {fileID: 5844916802348324281}
+  m_DragCard: {fileID: 0}
 --- !u!114 &5844916801943737363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,6 +246,23 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 5844916801943737362}
           m_MethodName: DragEvent
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5844916801943737362}
+          m_MethodName: BegineDragEvent
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

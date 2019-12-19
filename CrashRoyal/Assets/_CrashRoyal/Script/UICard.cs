@@ -66,10 +66,25 @@ public class UICard : MonoBehaviour
         }
 
         m_ISDrag = false;
+        m_DragCard.gameObject.SetActive(false);
+        m_DragCard = null;
     }
 
+
+    [SerializeField]
+    protected UI_DragCard m_DragCard = null;
     bool m_ISDrag = false;
     public void DragEvent(BaseEventData p_data)
+    {
+        if (m_DragCard)
+        {
+            PointerEventData eventdata = p_data as PointerEventData;
+            m_DragCard.transform.position = eventdata.position;
+        }
+
+    }
+
+    public void BegineDragEvent(BaseEventData p_data)
     {
         PointerEventData eventdata = p_data as PointerEventData;
         //BaseEventData
@@ -77,7 +92,24 @@ public class UICard : MonoBehaviour
         m_ISDrag = true;
 
         Debug.Log("드래그 : " + eventdata.position);
+
+        m_DragCard = InGameCardManager.GetI.DragCard;
+        m_DragCard.gameObject.SetActive(true);
+        m_DragCard.InitSettingDragCard(m_ActorID);
     }
+
+    //public void DragMoveEvent(BaseEventData p_data)
+    //{
+    //    if(m_DragCard)
+    //    {
+    //        PointerEventData eventdata = p_data as PointerEventData;
+    //        m_DragCard.transform.position = eventdata.position;
+    //    }
+
+    //}
+
+
+
 
 
     void Start()
