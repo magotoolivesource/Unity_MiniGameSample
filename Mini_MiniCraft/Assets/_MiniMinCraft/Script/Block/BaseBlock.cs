@@ -21,6 +21,9 @@ public class BaseBlock : MonoBehaviour
 
     public void InitSettingBlock()
     {
+        Vector3 pos = transform.position;
+        Material mat = MapGenerator.GetI.GetHeightRandMaterial((int)pos.y);
+        GetComponent<MeshRenderer>().material = mat;
 
     }
 

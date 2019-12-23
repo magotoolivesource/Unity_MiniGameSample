@@ -16,6 +16,7 @@ public class MapGenerator : SingleTon<MapGenerator>
     public BaseBlock CloneBlock = null;
 
 
+    public int m_OffsetHeight = 30;
 
 
 
@@ -36,9 +37,48 @@ public class MapGenerator : SingleTon<MapGenerator>
         float height = Mathf.PerlinNoise( x, y) * HeightMulti;
         //height *= HeightMulti;
 
-        height = (int)height;
+        height = (int)height + m_OffsetHeight;
 
         return height;
+    }
+
+    public Material[] GetHeightMaterial;
+    public Material GetHeightRandMaterial(int p_height)
+    {
+        int index = Random.Range(0, GetHeightMaterial.Length);
+
+        int height = p_height - m_OffsetHeight;
+
+        if( height < 5)
+        {
+            index = 0;
+        }
+        else if(height < 7)
+        {
+            index = Random.Range(0, 2);
+        }
+        else if(height < 9)
+        {
+            index = 1;
+        }
+        else if( height < 10)
+        {
+            index = Random.Range(1, 3);
+        }
+        else if (height < 12)
+        {
+            index = 1;
+        }
+        else if(height < 16)
+        {
+            index = 2;
+        }
+        else if (height < 20)
+        {
+            index = 4;
+        }
+
+        return GetHeightMaterial[index];
     }
 
     public BaseBlock CreateBlock(int p_x, int p_y)
@@ -51,8 +91,9 @@ public class MapGenerator : SingleTon<MapGenerator>
         Vector3 worldpos = new Vector3(p_x, height, p_y);
         block.transform.position = worldpos;
 
-
         m_MapDataBlockArray[p_y, p_x] = block;
+
+        m_MapDataBlockArray[p_y, p_x].InitSettingBlock();
         return block;
     }
 

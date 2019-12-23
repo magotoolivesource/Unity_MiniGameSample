@@ -8,12 +8,17 @@ public class PlayerActor : MonoBehaviour
     public Vector3 InitPos = new Vector3();
     public void SetInitPos()
     {
+        //CharacterController colltrol = GetComponent<CharacterController>();
+
         InitPos = MapGenerator.GetI.GetInitPlayerPos();
         transform.position = InitPos;
 
         GetComponent<Rigidbody>().position = InitPos;
 
-        //CharacterController colltrol = GetComponent<CharacterController>();
+        //
+        //colltrol.attachedRigidbody.position = InitPos;
+        CharacterController colltrol = GetComponent<CharacterController>();
+        colltrol.enabled = true;
     }
 
 
@@ -24,10 +29,18 @@ public class PlayerActor : MonoBehaviour
 
     void Update()
     {
-        if(m_ISInit)
-        {
-            m_ISInit = false;
-            SetInitPos();
-        }
+        //CharacterController colltrol = GetComponent<CharacterController>();
+        //if(m_ISInit  )
+        //{
+        //    m_ISInit = false;
+        //    SetInitPos();
+        //}
+        
+
+        //if(m_ISInit || true)
+        //{
+        //    m_ISInit = false;
+        //    SetInitPos();
+        //}
     }
 }

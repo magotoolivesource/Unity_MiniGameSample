@@ -232,7 +232,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &630336775
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -544,6 +544,12 @@ MonoBehaviour:
   Weight: 30
   MapOffset: {x: 0.5, y: 0.5}
   CloneBlock: {fileID: 630336779}
+  GetHeightMaterial:
+  - {fileID: 2100000, guid: 2d5f7d0cd8b55194284b790d87c7b75c, type: 2}
+  - {fileID: 2100000, guid: 29d7c4a284b71634292f6790582dfbf1, type: 2}
+  - {fileID: 2100000, guid: 10c4223f55b4561479ebe7f7b147485e, type: 2}
+  - {fileID: 2100000, guid: 1760501e7e5885b418ed9232cd138bdb, type: 2}
+  - {fileID: 2100000, guid: b50c1cf5d66a4a548874be951bd5f1fb, type: 2}
 --- !u!1001 &4581133265902400288
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -609,6 +615,11 @@ PrefabInstance:
     - target: {fileID: 4581133266018180252, guid: 98a8d0a43b6eaa548ae581d8d5f367cc,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581133266012157308, guid: 98a8d0a43b6eaa548ae581d8d5f367cc,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
