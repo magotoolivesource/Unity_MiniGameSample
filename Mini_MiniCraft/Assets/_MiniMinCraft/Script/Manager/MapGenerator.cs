@@ -67,13 +67,17 @@ public class MapGenerator : SingleTon<MapGenerator>
         }
         else if (height < 12)
         {
-            index = 1;
+            index = 2;
         }
         else if(height < 16)
         {
-            index = 2;
+            index = Random.Range(2, 4);
         }
         else if (height < 20)
+        {
+            index = 3;
+        }
+        else if (height < 25)
         {
             index = 4;
         }
@@ -147,6 +151,9 @@ public class MapGenerator : SingleTon<MapGenerator>
             for (int x = 0; x < xsize; x++)
             {
                 block = m_MapDataBlockArray[y, x];
+
+                if( block == null)
+                    continue;
 
                 height = GetHeight(x, y);
                 Vector3 worldpos = new Vector3(x, height, y);
