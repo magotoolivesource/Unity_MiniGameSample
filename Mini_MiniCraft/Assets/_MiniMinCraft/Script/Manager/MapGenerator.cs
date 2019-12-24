@@ -7,7 +7,12 @@ public class MapGenerator : SingleTon<MapGenerator>
     public bool ISRand = true;
     public int RandomSeed = 100;
     public Vector2Int MapSize = new Vector2Int(30, 30);
-    public BaseBlock[,] m_MapDataBlockArray = null;// new BaseBlock[2, 2];
+
+    //[SerializeField]
+    protected int m_MapHeight = 100;
+    public BaseBlock[,,] m_MapDataBlockArray = null;// new BaseBlock[2, 2];
+    public bool[,,] m_ISCreateBlockArray = null;
+
 
     public float HeightMulti = 1f;
     public float Weight = 1000;
@@ -29,7 +34,7 @@ public class MapGenerator : SingleTon<MapGenerator>
         return new Vector3(x, height + 2f, y);
     }
 
-    public float GetHeight(int p_x, int p_y)
+    public int GetHeight(int p_x, int p_y)
     {
         float x = MapOffset.x + ((float)p_x / Weight);
         float y = MapOffset.y + ((float)p_y / Weight);
@@ -39,10 +44,14 @@ public class MapGenerator : SingleTon<MapGenerator>
 
         height = (int)height + m_OffsetHeight;
 
-        return height;
+        return (int)height;
     }
 
     public Material[] GetHeightMaterial;
+    public Material GetBlockMaterial(E_BlockType p_type)
+    {
+        return GetHeightMaterial[(int)p_type];
+    }
     public Material GetHeightRandMaterial(int p_height)
     {
         int index = Random.Range(0, GetHeightMaterial.Length);
@@ -84,26 +93,56 @@ public class MapGenerator : SingleTon<MapGenerator>
 
         return GetHeightMaterial[index];
     }
+    public BaseBlock CrateBlock(int p_x, int p_y, int p_z, E_BlockType p_type)
+    {
+        BaseBlock block = GameObject.Instantiate<BaseBlock>(CloneBlock);
+        block.gameObject.SetActive(true);
+
+        Vector3 worldpos = new Vector3(p_x, p_y, p_z);
+        block.transform.position = worldpos;
+
+        m_MapDataBlockArray[p_z, p_y, p_x] = block;
+        m_MapDataBlockArray[p_z, p_y, p_x].SetBlockType(p_type);
+        m_ISCreateBlockArray[p_z, p_y, p_x] = true;
+        return block;
+    }
+
+    public BaseBlock CrateBlock(Vector3Int p_worldpos, E_BlockType p_type )
+    {
+        BaseBlock block = GameObject.Instantiate<BaseBlock>(CloneBlock);
+        block.gameObject.SetActive(true);
+
+
+        Vector3 worldpos = new Vector3( p_worldpos.x, p_worldpos.y, p_worldpos.z );
+        block.transform.position = worldpos;
+
+        m_MapDataBlockArray[p_worldpos.y, p_worldpos.y, p_worldpos.x] = block;
+        m_MapDataBlockArray[p_worldpos.y, p_worldpos.y, p_worldpos.x].SetBlockType(p_type);
+        return block;
+    }
 
     public BaseBlock CreateBlock(int p_x, int p_y)
     {
         BaseBlock block = GameObject.Instantiate<BaseBlock>(CloneBlock);
         block.gameObject.SetActive(true);
 
-        float height = GetHeight(p_x, p_y);
+        int height = GetHeight(p_x, p_y);
 
         Vector3 worldpos = new Vector3(p_x, height, p_y);
         block.transform.position = worldpos;
 
-        m_MapDataBlockArray[p_y, p_x] = block;
+        m_MapDataBlockArray[p_y, (int)height, p_x] = block;
 
-        m_MapDataBlockArray[p_y, p_x].InitSettingBlock();
+        m_MapDataBlockArray[p_y, height, p_x].InitSettingBlock();
         return block;
     }
 
     public void CreateMapGenerator()
     {
-        m_MapDataBlockArray = new BaseBlock[MapSize.y, MapSize.x];
+        m_MapHeight = m_OffsetHeight + MapSize.x;
+        m_MapDataBlockArray = new BaseBlock[MapSize.y, m_MapHeight, MapSize.x];
+        m_ISCreateBlockArray = new bool[MapSize.y, m_MapHeight, MapSize.x];
+
 
         int xsize = MapSize.x;
         int ysize = MapSize.x;
@@ -134,6 +173,28 @@ public class MapGenerator : SingleTon<MapGenerator>
         CreateMapGenerator();
     }
 
+    void Temp_UpdateLandReLocation()
+    {
+        int xsize = MapSize.x;
+        int ysize = MapSize.x;
+        BaseBlock block = null;
+        int height = 0;
+        for (int y = 0; y < ysize; y++)
+        {
+            for (int x = 0; x < xsize; x++)
+            {
+                height = GetHeight(x, y);
+
+                block = m_MapDataBlockArray[y, height, x];
+                if (block == null)
+                    continue;
+
+                Vector3 worldpos = new Vector3(x, height, y);
+                block.transform.position = worldpos;
+            }
+        }
+    }
+
     void Start()
     {
         
@@ -141,25 +202,9 @@ public class MapGenerator : SingleTon<MapGenerator>
 
     void Update()
     {
+        //Temp_UpdateLandReLocation();
 
-        int xsize = MapSize.x;
-        int ysize = MapSize.x;
-        BaseBlock block = null;
-        float height = 0f;
-        for (int y = 0; y < ysize; y++)
-        {
-            for (int x = 0; x < xsize; x++)
-            {
-                block = m_MapDataBlockArray[y, x];
 
-                if( block == null)
-                    continue;
-
-                height = GetHeight(x, y);
-                Vector3 worldpos = new Vector3(x, height, y);
-                block.transform.position = worldpos;
-            }
-        }
 
     }
 }
